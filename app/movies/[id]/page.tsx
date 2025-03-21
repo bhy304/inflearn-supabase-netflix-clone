@@ -1,7 +1,32 @@
+import { Metadata, ResolvingMetadata } from 'next'
 import UI from './ui'
 import { getMovie } from '@/actions/movie-actions'
 
-export default async function MovieDetail({ params: { id } }) {
+type Props = {
+  params: { id: number }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
+  const movie = await getMovie(params.id)
+
+  return {
+    title: movie?.title,
+    description: movie?.overview,
+    openGraph: {
+      images: [movie?.image_url ?? ''],
+    },
+  }
+}
+
+export default async function MovieDetail({
+  params: { id },
+}: {
+  params: { id: number }
+}) {
   const movie = await getMovie(id)
 
   return (
