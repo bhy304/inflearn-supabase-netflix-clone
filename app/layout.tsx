@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
+import RecoilProvider from '@/config/RecoilProvider'
 import { ThemeProvider } from 'config/material-tailwind-theme-provider'
 import ReactQueryClientProvider from 'config/ReactQueryClientProvider'
 import Header from '@/components/header'
@@ -34,13 +35,15 @@ export default function RootLayout({
         />
       </head>
       <body className={poppins.className}>
-        <ReactQueryClientProvider>
-          <ThemeProvider>
-            <Header />
-            {children}
-            <Footer />
-          </ThemeProvider>
-        </ReactQueryClientProvider>
+        <RecoilProvider>
+          <ReactQueryClientProvider>
+            <ThemeProvider>
+              <Header />
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </ReactQueryClientProvider>
+        </RecoilProvider>
       </body>
     </html>
   )
